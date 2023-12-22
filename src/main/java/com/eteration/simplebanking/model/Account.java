@@ -4,6 +4,7 @@ package com.eteration.simplebanking.model;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Account {
     private Double balance = 0.0;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<TransactionModel> transactions;
+    private List<TransactionModel> transactions = new ArrayList<>();
 
     public Account(String owner, String accountNumber) {
         this.owner = owner;

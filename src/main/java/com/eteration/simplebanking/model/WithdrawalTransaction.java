@@ -5,12 +5,12 @@ import com.eteration.simplebanking.enums.TransactionType;
 
 public class WithdrawalTransaction extends Transaction {
 
-    public WithdrawalTransaction(Account account, Object amount) {
-        super(account, TransactionType.WITHDRAWAL_TRANSACTION, (Double) amount);
+    public WithdrawalTransaction(Account account, double amount) {
+        super(account, TransactionType.WITHDRAWAL_TRANSACTION, amount);
     }
 
-    public WithdrawalTransaction(Object amount) {
-        super(TransactionType.WITHDRAWAL_TRANSACTION, (Double) amount);
+    public WithdrawalTransaction(double amount) {
+        super(TransactionType.WITHDRAWAL_TRANSACTION, amount);
     }
 
     public WithdrawalTransaction() {

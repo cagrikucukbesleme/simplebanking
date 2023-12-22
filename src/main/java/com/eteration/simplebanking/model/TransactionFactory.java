@@ -9,7 +9,7 @@ public class TransactionFactory {
     public TransactionFactory() {
     }
 
-    public static Transaction buildTransaction(TransactionType type, Account account, Object amount) {
+    public static Transaction buildTransaction(TransactionType type, Account account, double amount) {
         Transaction transaction = null;
 
         switch (type) {
