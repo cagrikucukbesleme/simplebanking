@@ -25,7 +25,26 @@ http://localhost:8080/swagger-ui.html
 
 I used @Transactional annotation at the Account Service so Every SQL process or command protected by Java Spring Boot
 
+##  Scratches:
+GET http://localhost:8080/account/v1/17892
 
+POST http://localhost:8080/account/v1/debit/17892
+Content-Type: application/json
+Accept: application/json
+Content-Length: 36
+
+{
+"amount": 3400
+}
+
+POST http://localhost:8080/account/v1/credit/17892
+Content-Type: application/json
+Accept: application/json
+Content-Length: 36
+
+    {
+        "amount": 10000
+    }
 
 # Getting Started with Simple Banking (Estimated duration 1-3 hours)
 
