@@ -6,17 +6,12 @@ import com.eteration.simplebanking.model.*;
 import com.eteration.simplebanking.repository.AccountRepository;
 import com.eteration.simplebanking.repository.TransactionRepository;
 import com.eteration.simplebanking.services.impl.AccountServiceImpl;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 
 // This class is a place holder you can change the complete implementation
 @Service
@@ -30,19 +25,19 @@ public class AccountService implements AccountServiceImpl {
 
     @Override
     public Account findAccount(String accountNumber) {
-        Account account=accountRepository.findByAccountNumber(accountNumber);
-        if(Objects.nonNull(account)){
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        if (Objects.nonNull(account)) {
             return account;
         }
-       return null;
+        return null;
     }
 
     @Override
     public TransactionStatus credit(String accountNumber, double amount) throws InsufficientBalanceException {
-        Account account=accountRepository.findByAccountNumber(accountNumber);
+        Account account = accountRepository.findByAccountNumber(accountNumber);
         TransactionStatus transactionStatus;
         if (account != null) {
-            Transaction transaction = new DepositTransaction(amount, account);
+            Transaction transaction = new DepositTransaction(account, amount);
             account.post(transaction);
             transactionRepository.save(transaction);
             accountRepository.save(account);
@@ -56,11 +51,11 @@ public class AccountService implements AccountServiceImpl {
 
     @Override
     public TransactionStatus debit(String accountNumber, double amount) throws InsufficientBalanceException {
-        Account account=accountRepository.findByAccountNumber(accountNumber);
+        Account account = accountRepository.findByAccountNumber(accountNumber);
         TransactionStatus transactionStatus;
-        double balance= account.getBalance();
+        double balance = account.getBalance();
         if (account != null) {
-            Transaction transaction = new WithdrawalTransaction(amount, account);
+            Transaction transaction = TransactionFactory.buildTransaction(TransactionType.WITHDRAWAL_TRANSACTION, account, amount);
             account.post(transaction);
             transactionRepository.save(transaction);
             accountRepository.save(account);

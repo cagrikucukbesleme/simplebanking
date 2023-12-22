@@ -1,47 +1,70 @@
 package com.eteration.simplebanking.model;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
 
-import javax.persistence.*;
-import java.util.Date;
-
-import static java.time.LocalTime.now;
-
-// This class is a place holder you can change the complete implementation
-@Entity
-@Getter
-@Setter
-@Table(name = "Transaction")
 public abstract class Transaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date date;
-    private double amount;
+    TransactionType transactionType = null;
+    Double amount = null;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    Account account = null;
 
+    LocalDateTime date = null;
 
-    public Transaction(Double amount) {
-        this.date = new Date();
+    Transaction(Account account, TransactionType transactionType, Double amount) {
+        this.account = account;
+        this.transactionType = transactionType;
         this.amount = amount;
+        this.date = LocalDateTime.now();
     }
 
-    public Transaction(Double amount, Account account) {
-        this.date = new Date();
+    Transaction(TransactionType transactionType, Double amount) {
+        this.transactionType = transactionType;
         this.amount = amount;
+        this.date = LocalDateTime.now();
+    }
+
+    Transaction(TransactionType transactionType) {
+        this.transactionType = transactionType;
+        this.date = LocalDateTime.now();
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
         this.account = account;
     }
 
-    public Transaction() {
-
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public abstract void process(Account account) throws InsufficientBalanceException;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" + "transactionType=" + transactionType + ", amount=" + amount + ", date=" + date + '}';
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    abstract void construct();
 }

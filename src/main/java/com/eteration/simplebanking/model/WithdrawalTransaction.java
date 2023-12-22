@@ -1,24 +1,25 @@
 package com.eteration.simplebanking.model;
 
 
-import javax.persistence.Entity;
-import java.util.Date;
+public class WithdrawalTransaction extends Transaction {
 
-// This class is a place holder you can change the complete implementation
-@Entity
-public class WithdrawalTransaction extends Transaction{
+    public WithdrawalTransaction(Account account, Object amount) {
+        super(account, TransactionType.WITHDRAWAL_TRANSACTION, (Double) amount);
+        construct();
+    }
+
     public WithdrawalTransaction(Object amount) {
-        super((Double) amount);
+        super(TransactionType.WITHDRAWAL_TRANSACTION, (Double) amount);
+        construct();
     }
-    public WithdrawalTransaction( Object amount, Account account) {
-        super( (Double) amount, account);
-    }
-    public WithdrawalTransaction(){
 
+    public WithdrawalTransaction() {
+        super(TransactionType.WITHDRAWAL_TRANSACTION);
+        construct();
     }
 
     @Override
-    public void process(Account account) throws InsufficientBalanceException {
+    void construct() {
 
     }
 }
