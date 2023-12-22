@@ -2,16 +2,17 @@ package com.eteration.simplebanking.controller;
 
 import com.eteration.simplebanking.model.Account;
 import com.eteration.simplebanking.model.DepositTransaction;
+import com.eteration.simplebanking.model.InsufficientBalanceException;
 import com.eteration.simplebanking.model.WithdrawalTransaction;
 import com.eteration.simplebanking.services.impl.AccountServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// This class is a place holder you can change the complete implementation
 @RestController
 @RequestMapping("/account/v1")
 @RequiredArgsConstructor
@@ -21,20 +22,22 @@ public class AccountController {
     private AccountServiceImpl accountService;
 
     @GetMapping("/{accountNumber}")
+    @ApiModelProperty("get account by account number")
     public ResponseEntity<Account> getAccount(@PathVariable String accountNumber) {
-        ResponseEntity<Account> responseEntity = new ResponseEntity<>(accountService.findAccount(accountNumber), HttpStatus.OK);
-        responseEntity.getBody().setStatus(String.valueOf(new TransactionStatus("OK")));
-        return responseEntity;
+        return new ResponseEntity<>(accountService.findAccount(accountNumber), HttpStatus.OK);
 
     }
 
     @PostMapping("/credit/{accountNumber}")
-    public ResponseEntity<TransactionStatus> credit(@PathVariable String accountNumber, @RequestBody DepositTransaction depositTransaction) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    @ApiModelProperty("post credit to account by account number")
+    public ResponseEntity<TransactionStatus> credit(@PathVariable String accountNumber, @RequestBody DepositTransaction transaction) throws InsufficientBalanceException {
+        return new ResponseEntity<>(accountService.credit(accountNumber, transaction), HttpStatus.OK);
     }
 
     @PostMapping("/debit/{accountNumber}")
-    public ResponseEntity<TransactionStatus> debit(@PathVariable String accountNumber, @RequestBody WithdrawalTransaction withdrawalTransaction) {
-        return null;
+    @ApiModelProperty("post debit to account by account number")
+    public ResponseEntity<TransactionStatus> debit(@PathVariable String accountNumber, @RequestBody WithdrawalTransaction transaction) throws InsufficientBalanceException {
+        return new ResponseEntity<>(accountService.debit(accountNumber, transaction), HttpStatus.OK);
+
     }
 }

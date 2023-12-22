@@ -1,5 +1,7 @@
 package com.eteration.simplebanking.model;
 
+import com.eteration.simplebanking.enums.TransactionType;
+
 /**
  * @author cagri
  */
@@ -15,10 +17,5 @@ public class CheckTransaction extends Transaction {
 
     public CheckTransaction() {
         super(TransactionType.CHECK_TRANSACTION);
-    }
-
-    @Override
-    void construct() {
-
     }
 }

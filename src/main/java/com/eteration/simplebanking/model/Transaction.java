@@ -1,24 +1,27 @@
 package com.eteration.simplebanking.model;
 
 
+import com.eteration.simplebanking.enums.TransactionType;
+
 import java.time.LocalDateTime;
 
-public abstract class Transaction {
+public abstract class Transaction extends TransactionModel {
     TransactionType transactionType = null;
-    Double amount = null;
+    double amount;
 
-    Account account = null;
+    Account account;
 
     LocalDateTime date = null;
 
-    Transaction(Account account, TransactionType transactionType, Double amount) {
+    Transaction(Account account, TransactionType transactionType, double amount) {
         this.account = account;
         this.transactionType = transactionType;
         this.amount = amount;
         this.date = LocalDateTime.now();
     }
 
-    Transaction(TransactionType transactionType, Double amount) {
+
+    Transaction(TransactionType transactionType, double amount) {
         this.transactionType = transactionType;
         this.amount = amount;
         this.date = LocalDateTime.now();
@@ -45,11 +48,6 @@ public abstract class Transaction {
         this.date = date;
     }
 
-    @Override
-    public String toString() {
-        return "Transaction{" + "transactionType=" + transactionType + ", amount=" + amount + ", date=" + date + '}';
-    }
-
     public TransactionType getTransactionType() {
         return transactionType;
     }
@@ -58,13 +56,16 @@ public abstract class Transaction {
         this.transactionType = transactionType;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    abstract void construct();
+    @Override
+    public String toString() {
+        return "Transaction{" + "transactionType=" + transactionType + ", amount=" + amount + ", account=" + account + ", date=" + date + '}';
+    }
 }

@@ -1,5 +1,7 @@
 package com.eteration.simplebanking.model;
 
+import com.eteration.simplebanking.enums.TransactionType;
+
 /**
  * @author cagri
  */

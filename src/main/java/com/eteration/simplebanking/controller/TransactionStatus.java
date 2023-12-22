@@ -3,25 +3,41 @@ package com.eteration.simplebanking.controller;
 
 // This class is a place holder you can change the complete implementation
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.http.ResponseEntity;
+import com.eteration.simplebanking.enums.TransactionStatusType;
 
-@Getter
-@Setter
+import java.util.UUID;
+
 public class TransactionStatus {
 
-    private String status;
+    private TransactionStatusType status;
     private String approvalCode;
 
-    public TransactionStatus(String status, String approvalCode) {
+    public TransactionStatus(TransactionStatusType status) {
         this.status = status;
+        this.approvalCode = UUID.randomUUID().toString();
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionStatus{" +
+                "status='" + status + '\'' +
+                ", approvalCode='" + approvalCode + '\'' +
+                '}';
+    }
+
+    public TransactionStatusType getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatusType status) {
+        this.status = status;
+    }
+
+    public String getApprovalCode() {
+        return approvalCode;
+    }
+
+    public void setApprovalCode(String approvalCode) {
         this.approvalCode = approvalCode;
     }
-
-    public TransactionStatus(String status) {
-        this.status = status;
-    }
-
 }

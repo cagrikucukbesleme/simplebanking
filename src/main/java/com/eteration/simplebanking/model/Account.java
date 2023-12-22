@@ -1,37 +1,34 @@
 package com.eteration.simplebanking.model;
 
 
-import lombok.*;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
 
-// This class is a place holder you can change the complete implementation
 @Entity
 @Table(name = "Account")
 public class Account {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
     private long id;
     @NonNull
     private String accountNumber;
     private String owner;
-    private Double balance=0.0;
+    private Double balance = 0.0;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Transaction> transactions;
+    private List<TransactionModel> transactions;
 
-    public String getStatus() {
-        return status;
+    public Account(String owner, String accountNumber) {
+        this.owner = owner;
+        this.accountNumber = accountNumber;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public Account() {
+
     }
-
-    private String status;
-
-
 
     public long getId() {
         return id;
@@ -65,22 +62,13 @@ public class Account {
         this.balance = balance;
     }
 
-    public List<Transaction> getTransactions() {
+    public List<TransactionModel> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<TransactionModel> transactions) {
         this.transactions = transactions;
     }
-
-    public Account(String owner, String accountNumber) {
-        this.owner = owner;
-        this.accountNumber = accountNumber;
-    }
-    public Account(){
-
-    }
-
 
     public void post(Transaction transaction) throws InsufficientBalanceException {
         if (transaction instanceof WithdrawalTransaction) {
@@ -88,12 +76,18 @@ public class Account {
         } else if (transaction instanceof DepositTransaction) {
             deposit(transaction.getAmount());
         }
-        transactions.add(transaction);
+        TransactionModel transactionModel = new TransactionModel();
+        transactionModel.setAmount(transaction.getAmount());
+        transactionModel.setAccount(transaction.getAccount());
+        transactionModel.setDate(transaction.getDate());
+        transactionModel.setType(transaction.getTransactionType());
+        transactions.add(transactionModel);
     }
 
     public void deposit(int amount) {
         this.deposit(Double.valueOf(amount));
     }
+
     public void deposit(Double amount) {
         this.balance = this.balance + amount;
     }
@@ -101,11 +95,12 @@ public class Account {
     public void withdraw(int amount) throws InsufficientBalanceException {
         this.withdraw(Double.valueOf(amount));
     }
-    public void withdraw(Double i) throws InsufficientBalanceException {
-        if (this.balance < i) {
+
+    public void withdraw(Double amount) throws InsufficientBalanceException {
+        if (this.balance < amount) {
             throw new InsufficientBalanceException();
         }
-        this.balance = this.balance - i;
+        this.balance = this.balance - amount;
     }
 
 }

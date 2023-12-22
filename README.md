@@ -1,3 +1,32 @@
+# Simple Banking Project
+
+## For confusing Transactions
+
+Abstract Factory Design Pattern Implemented
+
+## DB:
+
+http://localhost:8080/h2-console
+
+spring.datasource.url=jdbc:h2:mem:test
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=user
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+Script:  INSERT INTO ACCOUNT  VALUES( '1','17892',12, 'Kerem Karaca');
+
+## Swagger:
+
+http://localhost:8080/swagger-ui.html
+
+
+## For Data Protect "@Transactional"
+
+I used @Transactional annotation at the Account Service so Every SQL process or command protected by Java Spring Boot
+
+
+
 # Getting Started with Simple Banking (Estimated duration 1-3 hours)
 
 In this assignment you will build a banking service that can handle any number of transactions for bank accounts. The service is part of a larger collection of services that model the inner workings of a bank. The services for the "bank account" provide a simple model of how bank accounts might work in an overly simplified world.
