@@ -31,13 +31,15 @@ public class AccountController {
     @PostMapping("/credit/{accountNumber}")
     @ApiModelProperty("post credit to account by account number")
     public ResponseEntity<TransactionStatus> credit(@PathVariable String accountNumber, @RequestBody DepositTransaction transaction) throws InsufficientBalanceException {
-        return new ResponseEntity<>(accountService.credit(accountNumber, transaction), HttpStatus.OK);
+        Account account = accountService.findAccount(accountNumber);
+        return ResponseEntity.ok(accountService.credit(account, transaction));
     }
 
     @PostMapping("/debit/{accountNumber}")
     @ApiModelProperty("post debit to account by account number")
     public ResponseEntity<TransactionStatus> debit(@PathVariable String accountNumber, @RequestBody WithdrawalTransaction transaction) throws InsufficientBalanceException {
-        return new ResponseEntity<>(accountService.debit(accountNumber, transaction), HttpStatus.OK);
+        Account account = accountService.findAccount(accountNumber);
+        return ResponseEntity.ok(accountService.debit(account, transaction));
 
     }
 }

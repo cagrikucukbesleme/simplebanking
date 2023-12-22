@@ -12,7 +12,7 @@ import com.eteration.simplebanking.model.WithdrawalTransaction;
 public interface AccountServiceImpl {
     Account findAccount(String accountNumber);
 
-    TransactionStatus credit(String accountNumber, DepositTransaction transaction) throws InsufficientBalanceException;
+    TransactionStatus credit(Account account, DepositTransaction transaction) throws InsufficientBalanceException;
 
-    TransactionStatus debit(String accountNumber, WithdrawalTransaction transaction) throws InsufficientBalanceException;
+    TransactionStatus debit(Account account, WithdrawalTransaction transaction) throws InsufficientBalanceException;
 }

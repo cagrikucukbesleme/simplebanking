@@ -5,9 +5,10 @@ package com.eteration.simplebanking.controller;
 
 import com.eteration.simplebanking.enums.TransactionStatusType;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class TransactionStatus {
+public class TransactionStatus implements Serializable {
 
     private TransactionStatusType status;
     private String approvalCode;

@@ -37,8 +37,7 @@ public class AccountService implements AccountServiceImpl {
     }
 
     @Override
-    public TransactionStatus credit(String accountNumber, DepositTransaction transaction) throws InsufficientBalanceException {
-        Account account = accountRepository.findByAccountNumber(accountNumber);
+    public TransactionStatus credit(Account account, DepositTransaction transaction) throws InsufficientBalanceException {
         if (account != null) {
             transaction = new DepositTransaction(account, transaction.getAmount());
             account.post(transaction);
@@ -50,9 +49,7 @@ public class AccountService implements AccountServiceImpl {
 
 
     @Override
-    public TransactionStatus debit(String accountNumber, WithdrawalTransaction transaction) throws InsufficientBalanceException {
-        Account account = accountRepository.findByAccountNumber(accountNumber);
-        TransactionStatus transactionStatus = null;
+    public TransactionStatus debit(Account account, WithdrawalTransaction transaction) throws InsufficientBalanceException {
         if (account != null) {
             transaction = new WithdrawalTransaction(transaction.getAmount());
             account.post(transaction);
