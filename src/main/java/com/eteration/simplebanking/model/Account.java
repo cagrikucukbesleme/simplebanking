@@ -99,7 +99,7 @@ public class Account {
 
     public void withdraw(Double amount) throws InsufficientBalanceException {
         if (this.balance < amount) {
-            throw new InsufficientBalanceException();
+            throw new InsufficientBalanceException("Insufficient Balance Exception");
         }
         this.balance = this.balance - amount;
     }
